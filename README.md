@@ -3,3 +3,21 @@ The not so final resting place of cards. There are several reasons why cards can
 
 * 01/16/2024 - Zefras: Archived due to rework of custom cards.
   
+================================================================
+
+To add to repo:
+
+		{
+			"url": "https://github.com/GenesicZyrael/CrimsonArchives",
+			"repo_name": "Crimson Archives",
+			"repo_path": "./repositories/crimson-archives",
+			"has_core": true,
+			"core_path": "bin",
+			"data_path": "",
+			"script_path": "script",
+			"should_update": true,
+			"should_read": true
+		}
+  
+Requires: 
+* CrimsonAlpha & base EDOPro scripts
