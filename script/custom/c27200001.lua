@@ -39,7 +39,7 @@ function s.initial_effect(c)
 	local e5=e4:Clone()
 	e5:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e5:SetCondition(s.condition)
-	c:RegisterEffect(e5)
+	c:RegisterEffect(e5,false,CUSTOM_REGISTER_ZEFRA)
 end
 s.listed_series={SET_GISHKI,SET_ZEFRA}
 function s.mfilter(c)
