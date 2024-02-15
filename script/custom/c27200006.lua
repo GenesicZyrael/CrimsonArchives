@@ -32,7 +32,7 @@ function s.initial_effect(c)
 	local e5=e4:Clone()
 	e5:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e5:SetCondition(s.thcon)
-	c:RegisterEffect(e5)
+	c:RegisterEffect(e5,false,CUSTOM_REGISTER_ZEFRA)
 	-- --pendulum summon cannot be negated
 	-- local e6=Effect.CreateEffect(c)
 	-- e6:SetType(EFFECT_TYPE_SINGLE)
