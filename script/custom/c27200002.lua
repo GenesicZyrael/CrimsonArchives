@@ -22,7 +22,6 @@ function s.initial_effect(c)
 	e3:SetCondition(s.otcon)
 	e3:SetTarget(aux.FieldSummonProcTg(s.ottg,s.ottgsum))
 	e3:SetOperation(s.otop)
-	e3:SetCountLimit(1)
 	e3:SetValue(SUMMON_TYPE_TRIBUTE)
 	c:RegisterEffect(e3,tp)
 	local e4=e3:Clone()
@@ -75,7 +74,7 @@ end
 function s.ottg(e,c)
 	local mi=c:GetTributeRequirement()
 	local ed=Duel.GetMatchingGroup(s.rmfilter,e:GetHandlerPlayer(),LOCATION_EXTRA,0,nil):GetCount()
-	return mi>0 and ed>=mi and (c:IsSetCard(SET_ZEFRA) or c:IsSetCard(SET_LSWARM))
+	return mi>0 and ed>=mi
 end
 function s.ottgsum(e,tp,eg,ep,ev,re,r,rp,c)
 	return true
