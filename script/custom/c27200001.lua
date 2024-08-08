@@ -68,19 +68,15 @@ function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_PENDULUM)
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then 
-		return (Duel.CheckLocation(tp,LOCATION_PZONE,0) 
-			or Duel.CheckLocation(tp,LOCATION_PZONE,1)) 
-	end	
+	if chk==0 then return Duel.CheckPendulumZones(tp) end	
+	Duel.SetPossibleOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND)
 end
 function s.operation(rittg,ritop)
 	return function(e,tp,eg,ep,ev,re,r,rp)
 		local rit=rittg(e,tp,eg,ep,ev,re,r,rp,0)
 		local c=e:GetHandler()
 		if not e:GetHandler():IsRelateToEffect(e) then return end
-		if Duel.SelectYesNo(tp,aux.Stringid(id,2))
-			and ( Duel.CheckLocation(tp,LOCATION_PZONE,0) 
-			   or Duel.CheckLocation(tp,LOCATION_PZONE,1)) then 
+		if Duel.SelectYesNo(tp,aux.Stringid(id,2)) and Duel.CheckPendulumZones(tp) then 
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOFIELD)
 			Duel.MoveToField(c,tp,tp,LOCATION_PZONE,POS_FACEUP,true)
 		end
