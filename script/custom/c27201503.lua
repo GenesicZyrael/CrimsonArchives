@@ -1,17 +1,18 @@
---Spiritual Beast Falco
+--Spiritual Beast Gusto Falco
 local s,id=GetID() 
 function s.initial_effect(c)
 	c:SetSPSummonOnce(id)
-	--Normal Summon itself from hand
+	--Special Summon itself from hand
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
-	e1:SetCategory(CATEGORY_SUMMON)
+	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetRange(LOCATION_HAND)
 	e1:SetCountLimit(1,{id,0})
-	e1:SetCost(s.sumcost)
-	e1:SetTarget(s.sumtarg)
-	e1:SetOperation(s.sumope)
+	e1:SetCondition(s.spcon)
+	e1:SetCost(s.spcost)
+	e1:SetTarget(s.sptg)
+	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
 	--token
 	local e2=Effect.CreateEffect(c)
@@ -27,40 +28,43 @@ function s.initial_effect(c)
 	local e3=e2:Clone()
 	e3:SetCode(EVENT_SUMMON_SUCCESS)
 	c:RegisterEffect(e3)
-	-- --Can be treated as level 3 for a Synchro Summon
-	-- local e4=Effect.CreateEffect(c)
-		-- e4:SetType(EFFECT_TYPE_SINGLE)
-		-- e4:SetRange(LOCATION_ONFIELD)
-		-- e4:SetCode(EFFECT_SYNCHRO_LEVEL)
-		-- e4:SetValue(s.slevel)
-	-- c:RegisterEffect(e4)
+	--Can be treated as level 3 for a Synchro Summon
+	local e4=Effect.CreateEffect(c)
+	e4:SetType(EFFECT_TYPE_SINGLE)
+	e4:SetRange(LOCATION_ONFIELD)
+	e4:SetCode(EFFECT_SYNCHRO_LEVEL)
+	e4:SetValue(s.slevel)
+	c:RegisterEffect(e4)
 end
-s.listed_series={SET_RITUAL_BEAST,SET_RITUAL_BEAST_TAMER}
-function s.sumcost(e,tp,eg,ep,ev,re,r,rp,chk)
+s.listed_series={SET_RITUAL_BEAST,SET_RITUAL_BEAST_TAMER,SET_GUSTO}
+function s.spcon(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0
+end
+function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return not c:IsPublic() and c:GetFlagEffect(id)==0 end
 	c:RegisterFlagEffect(id,RESET_CHAIN,0,1)
 end
-function s.sumtarg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and e:GetHandler():IsSummonable(true,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_SUMMON,e:GetHandler(),1,0,0)
+		and e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false) end
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,e:GetHandler(),1,0,0)
 end
-function s.sumope(e,tp,eg,ep,ev,re,r,rp)
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
-	Duel.Summon(tp,c,true,nil)
+	Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
 end
 function s.tkntg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,27200530,SET_RITUAL_BEAST_TAMER,0x4011,200,1000,2,RACE_PSYCHIC,ATTRIBUTE_WIND) end
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,27201530,SET_RITUAL_BEAST_TAMER|SET_GUSTO,0x4011,200,1000,2,RACE_PSYCHIC,ATTRIBUTE_WIND) end
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,0,0)
 end
 function s.tknop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,27200530,SET_RITUAL_BEAST_TAMER,0x4011,200,1000,2,RACE_PSYCHIC,ATTRIBUTE_WIND) then
-			local token=Duel.CreateToken(tp,27200530)
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,27201530,SET_RITUAL_BEAST_TAMER|SET_GUSTO,0x4011,200,1000,2,RACE_PSYCHIC,ATTRIBUTE_WIND) then
+			local token=Duel.CreateToken(tp,27201530)
 			Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetType(EFFECT_TYPE_SINGLE)
@@ -87,10 +91,10 @@ function s.tknop(e,tp,eg,ep,ev,re,r,rp)
 			Duel.SpecialSummonComplete()
 	end
 end
--- function s.slevel(e,c)
-	-- return 3<<16|e:GetHandler():GetLevel()
--- end
+function s.slevel(e,c)
+	return 3<<16|e:GetHandler():GetLevel()
+end
 function s.matlimit(e,c)
 	if not c then return false end
-	return not c:IsSetCard(SET_RITUAL_BEAST)
+	return not (c:IsSetCard(SET_RITUAL_BEAST) or c:IsSetCard(SET_GUSTO))
 end
