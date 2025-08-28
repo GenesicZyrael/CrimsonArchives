@@ -11,7 +11,7 @@ To add to repo:
 		{
 			"url": "https://github.com/GenesicZyrael/CrimsonArchives",
 			"repo_name": "Crimson Archives",
-			"repo_path": "./repositories/crimson-archives",
+			"repo_path": "./repositories/CrimsonArchives",
 			"has_core": true,
 			"core_path": "bin",
 			"data_path": "",
