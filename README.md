@@ -3,6 +3,7 @@ The not so final resting place of cards. There are several reasons why cards can
 
 * 01/16/2024 - Zefras: Archived due to rework of custom cards.
 * 06/04/2024 - Jurracs: Archived due to rework of custom cards.
+* 08/29/2025 - Dragunity: Archived due to rework.
   
 ================================================================
 
