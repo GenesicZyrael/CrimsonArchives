@@ -27,9 +27,8 @@ function s.fextra(e,tp,mg)
 	local tc2=Duel.GetFieldCard(tp,LOCATION_PZONE,1)
 	local mg1=Duel.GetMatchingGroup(s.exfilter,tp,LOCATION_EXTRA,0,nil)
 	if Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0 and (tc1 and tc2 and tc1:IsSetCard(SET_ZEFRA) and tc2:IsSetCard(SET_ZEFRA)) then 
-		local mg2=Duel.GetMatchingGroup(Fusion.IsMonsterFilter(Card.IsAbleToGrave),tp,LOCATION_DECK,0,nil)
+		local mg2=Duel.GetMatchingGroup(s.exfilter,tp,LOCATION_DECK,0,nil)
 		mg1:Merge(mg2)
-		return mg1
 	end
 	return mg1
 end
